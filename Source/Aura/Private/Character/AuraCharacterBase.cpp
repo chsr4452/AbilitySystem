@@ -3,32 +3,25 @@
 
 #include "Character/AuraCharacterBase.h"
 
-// Sets default values
+#include "Animation/AuraAnimInstance.h"
+
+// Sets default values		
 AAuraCharacterBase::AAuraCharacterBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
-}
-
-// Called when the game starts or when spawned
-void AAuraCharacterBase::BeginPlay()
-{
-	Super::BeginPlay();
+	PrimaryActorTick.bCanEverTick = false;
 	
 }
 
-// Called every frame
-void AAuraCharacterBase::Tick(float DeltaTime)
+void AAuraCharacterBase::BeginPlay()
 {
-	Super::Tick(DeltaTime);
-
+	Super::BeginPlay();
+	AnimInstance = Cast<UAuraAnimInstance>(GetMesh()->GetAnimInstance());
 }
 
-// Called to bind functionality to input
-void AAuraCharacterBase::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+void AAuraCharacterBase::Tick(float DeltaSeconds)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	Super::Tick(DeltaSeconds);
+	AnimInstance->MoveSpeed = GetVelocity().Size();
 }
 

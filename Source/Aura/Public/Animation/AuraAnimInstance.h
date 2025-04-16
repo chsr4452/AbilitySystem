@@ -14,4 +14,7 @@ class AURA_API UAuraAnimInstance : public UAnimInstance
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation")
+	float MoveSpeed{0};
 };

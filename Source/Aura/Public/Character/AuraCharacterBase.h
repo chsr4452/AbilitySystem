@@ -3,27 +3,43 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
 #include "AuraCharacterBase.generated.h"
 
+class UAttributeSet;
+class UAbilitySystemComponent;
+class UAuraAnimInstance;
+class UCameraComponent;
+class USpringArmComponent;
+
 UCLASS()
-class AURA_API AAuraCharacterBase : public ACharacter
+class AURA_API AAuraCharacterBase : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
 	AAuraCharacterBase();
+	
+	virtual void Tick(float DeltaSeconds) override;
+	
+	UFUNCTION(BlueprintCallable, Category = "Ability System")
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override{return AbilitySystemComponent;}
 
+	UFUNCTION(BlueprintCallable, Category = "Ability System")
+	virtual UAttributeSet* GetAttributeSet() const{return AttributeSet;}
+	
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Animation")
+	TObjectPtr<UAuraAnimInstance> AnimInstance;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability System")
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability System")
+	TObjectPtr<UAttributeSet> AttributeSet;
 };

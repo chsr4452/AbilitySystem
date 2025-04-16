@@ -13,5 +13,9 @@ UCLASS()
 class AURA_API AAuraCharacterEnemy : public AAuraCharacterBase
 {
 	GENERATED_BODY()
-	
+public:
+	AAuraCharacterEnemy();
+
+protected:
+	virtual void BeginPlay() override;
 };
